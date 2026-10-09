@@ -1,0 +1,126 @@
+import 'dart:io';
+
+void main (){
+  var jalan = true;
+
+Map posa={'plat':null};
+Map posb={'plat':null};
+Map posc={'plat':null};
+
+List waitinglist=[];
+
+void tampilmenu(){
+    print('======================');
+    print('Wash & Clean');
+    print('======================');
+    print('1. Tambah Waiting List');
+    print('2. Lihat Waiting List');
+    print('3. Lihat Pos');
+    print('4. Selesaikan Pos');
+    print('5. Keluar dari Aplikasi');
+    print('======================');
+}
+
+void tambahlist(){
+  stdout.write('Plat Kendaraan : ');
+  var input_plat = stdin.readLineSync()!;
+  
+  if(posa['plat'] == null){
+    posa['plat'] = input_plat;
+    // print('${posa}');
+  } else if(posb['plat'] == null){
+    posb['plat'] = input_plat;
+    // print('${posb}');
+  } else if(posc['plat'] == null){
+    posc['plat'] = input_plat;
+    // print('${posc}');
+  } else{
+    waitinglist.add(input_plat);
+    print('Pos penuh, $input_plat dialihkan ke waiting list');
+  }
+}
+
+void lihatlist(){
+  if(waitinglist.isEmpty){
+    print('Waiting List Kosong');
+  } else {
+      for (var i = 0; i < waitinglist.length; i++) {
+      print('Antrian ke-${i+1}. ${waitinglist[i]}');
+    }
+  }
+}
+
+void lihatpos(){
+  print('=====POS A=====');
+  print(posa['plat'] ?? 'Kosong');
+  print('=====POS B=====');
+  print(posb['plat'] ?? 'Kosong');  
+  print('=====POS C=====');
+  print(posc['plat'] ?? 'Kosong');
+}
+
+void selesaikanpos(){
+  stdout.write('Pilih Pos (A/B/C) : ');
+  var pilihpos = stdin.readLineSync()!.toString().toLowerCase();
+
+  if(pilihpos == 'a'){
+      if(posa['plat'] != null){
+      posa['plat'] = null;
+        if(waitinglist.isNotEmpty){
+          posa['plat'] = waitinglist[0];
+          waitinglist.removeAt(0);
+          print('Pos A selesai, ${posa['plat']} masuk dari waiting list');
+        }
+    } 
+  } else if(pilihpos == 'b'){
+      if(posb['plat'] != null){
+        posb['plat'] = null;
+        if(waitinglist.isNotEmpty){
+          posb['plat'] = waitinglist[0];
+          waitinglist.removeAt(0);
+          print('Pos B selesai, ${posb['plat']} masuk dari waiting list');
+        }
+    }
+  } else if(pilihpos == 'c'){
+      if(posc['plat'] != null){
+        posc['plat'] = null;
+        if(waitinglist.isNotEmpty){
+          posc['plat'] = waitinglist[0];
+          waitinglist.removeAt(0);
+          print('Pos C selesai, ${posc['plat']} masuk dari waiting list');
+        }
+    }
+  }
+}
+void keluarapp(){
+  exit(0);
+
+}
+
+
+while(jalan==true){
+  tampilmenu();
+  stdout.write('Pilih Menu (1/2/3/4/5) : ');
+  var input = stdin.readLineSync()!;
+  num menu = int.parse(input);
+  switch (menu) {
+    case 1:
+      tambahlist();
+      break;
+    case 2:
+      lihatlist();
+      break;
+    case 3:
+      lihatpos();
+      break;
+    case 4:
+      selesaikanpos();
+      break;
+    case 5:
+      keluarapp();
+      break;
+    default:
+  }
+}
+
+}
